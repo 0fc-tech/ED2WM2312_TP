@@ -23,3 +23,4 @@ rootProject.name = "TP"
 include(":app")
 include(":filmserie")
 include(":mod3compose")
+include(":mod4statevm")
