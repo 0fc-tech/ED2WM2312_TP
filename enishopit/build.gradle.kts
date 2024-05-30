@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -50,6 +51,11 @@ android {
 }
 
 dependencies {
+    //Sert à la serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    //Permet la navigation en compose AVEC les Safe Types
+    implementation("androidx.navigation:navigation-compose:2.8.0-beta02")
+    //Permet l'affichage et le stockage en cache d'images en asynchrone (web)
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

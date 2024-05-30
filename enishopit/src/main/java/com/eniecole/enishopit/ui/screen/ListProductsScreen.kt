@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import kotlinx.serialization.Serializable
 import java.util.ArrayList
 
 //Utiliser le live template comp
@@ -31,8 +32,13 @@ fun ListProductsScreen(modifier: Modifier = Modifier) {
         }
     }
 }
-
-data class Product(val title: String, val image: String, val price: Float, val category: String)
+@Serializable
+data class Product(
+    val title: String,
+    val image: String,
+    val price: Float,
+    val category: String
+)
 
 private val _products = listOf(
     Product(
