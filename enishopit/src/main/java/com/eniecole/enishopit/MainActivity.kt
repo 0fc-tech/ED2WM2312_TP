@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -51,7 +52,7 @@ fun NavHostEniShopIt(
             //Ici le callback onProductClick est déclenché lorsque clic sur produit dans la grille
             ListProductsScreen(onProductClick = { product ->
                 //on récupère le produit appuyé, que l'on envoie dans la navigation vers DetailProductsPage
-                navController.navigate(DetailProductsPage(product))
+                navController.navigate(DetailProductsPage(product.id))
             })
         }
         //Ici la construction de la page DetailProducts, on récupère le arguments
@@ -60,7 +61,7 @@ fun NavHostEniShopIt(
             val detailProductsPage : DetailProductsPage = backStackEntry.toRoute()
             //On se sert de l'instance "detailProductsPage" pour récupérer le produit cliqué
             //Puis on l'envoie sur notre DetailProductsScreen
-            DetailProductsScreen(detailProductsPage.product)
+            DetailProductsScreen(detailProductsPage.productId)
         }
     }
 }
@@ -68,4 +69,4 @@ fun NavHostEniShopIt(
 @Serializable
 object ListProductsPage
 @Serializable
-class DetailProductsPage(val product: Product)
+class DetailProductsPage(val productId: Int)
