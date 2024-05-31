@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
@@ -14,7 +15,7 @@ class SettingsViewModel(
     val adr1 : Flow<String?> = settingsRepository.adr1
     val adr2 : Flow<String?> = settingsRepository.adr2
     val codeEntreprise : Flow<String?> = settingsRepository.codeEntreprise
-    val reduction : Flow<Int?> = settingsRepository.carteReduction
+    val reduction : Flow<String> = settingsRepository.carteReduction.map { it?.toString() ?: "" }
 
     //Mutateur permettant la modification des champs
     fun setAdr1(adr1 : String){
@@ -32,9 +33,12 @@ class SettingsViewModel(
             settingsRepository.saveCodeEntreprise(codeEntreprise)
         }
     }
-    fun setCarteReduction(reduc : Int){
+
+    fun setCarteReduction(reduc : String){
         viewModelScope.launch(context = Dispatchers.IO) {
-            settingsRepository.saveCarteReduc(reduc)
+            //Si la carte de réduction renseignée est bien un entier alors sauvegarder dans le repo
+            if(reduc.toIntOrNull() != null)
+                settingsRepository.saveCarteReduc(reduc.toInt())
         }
     }
 

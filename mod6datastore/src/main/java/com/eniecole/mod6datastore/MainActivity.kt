@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Card
@@ -22,6 +23,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -65,12 +69,10 @@ fun FormSettings(modifier: Modifier = Modifier,
             onValueChange = {})
         CardForm(titre = "ID Carte réduction",
             label="1324241",
-            valueTextField = ""/*Transformer en chaîne de caractère */,
+            valueTextField = vm.reduction.collectAsState("").value,
             onValueChange = {carteReduc->
-                //TODO Parser carteReduc en Int
-                //TODO Sauvegarder
-
-            })
+                vm.setCarteReduction(carteReduc)
+            },isNumber = true)
 
     }
 }
@@ -79,7 +81,8 @@ fun CardForm(modifier: Modifier = Modifier,
              titre :String,
              label : String,
              valueTextField : String,
-             onValueChange : (String) -> Unit) {
+             onValueChange : (String) -> Unit,
+             isNumber : Boolean = false) {
     Card(modifier = modifier){
         Row(modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,){
@@ -87,7 +90,11 @@ fun CardForm(modifier: Modifier = Modifier,
                 Text(titre)
                 TextField(value=valueTextField,
                     onValueChange = onValueChange,
-                    label = {Text(label)})
+                    label = {Text(label)},
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = if(isNumber) KeyboardType.Decimal else KeyboardType.Text),
+
+                )
             }
             Spacer(Modifier.weight(1f))
             IconButton(onClick = { /*TODO*/ }) {
